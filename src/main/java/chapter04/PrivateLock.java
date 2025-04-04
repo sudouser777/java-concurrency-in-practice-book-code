@@ -19,4 +19,6 @@ public class PrivateLock {
             // Access or modify the state of widget
         }
     }
+
+    private static class Widget {}
 }
