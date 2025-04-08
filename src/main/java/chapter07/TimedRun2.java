@@ -1,6 +1,7 @@
 package chapter07;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import static chapter05.LaunderThrowable.launderThrowable;
 import static java.util.concurrent.Executors.newScheduledThreadPool;

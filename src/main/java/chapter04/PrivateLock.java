@@ -20,5 +20,6 @@ public class PrivateLock {
         }
     }
 
-    private static class Widget {}
+    private static class Widget {
+    }
 }

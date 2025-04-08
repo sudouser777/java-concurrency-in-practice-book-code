@@ -2,7 +2,7 @@ package chapter10;
 
 /**
  * InduceLockOrder
- *
+ * <p>
  * Inducing a lock order to avoid deadlock
  *
  * @author Brian Goetz and Tim Peierls

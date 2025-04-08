@@ -15,13 +15,6 @@ public class SwingUtilities {
             Executors.newSingleThreadExecutor(new SwingThreadFactory());
     private static volatile Thread swingThread;
 
-    private static class SwingThreadFactory implements ThreadFactory {
-        public Thread newThread(Runnable r) {
-            swingThread = new Thread(r);
-            return swingThread;
-        }
-    }
-
     public static boolean isEventDispatchThread() {
         return Thread.currentThread() == swingThread;
     }
@@ -37,6 +30,13 @@ public class SwingUtilities {
             f.get();
         } catch (ExecutionException e) {
             throw new InvocationTargetException(e);
+        }
+    }
+
+    private static class SwingThreadFactory implements ThreadFactory {
+        public Thread newThread(Runnable r) {
+            swingThread = new Thread(r);
+            return swingThread;
         }
     }
 }

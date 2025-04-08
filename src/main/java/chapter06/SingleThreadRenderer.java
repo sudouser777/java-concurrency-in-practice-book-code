@@ -1,6 +1,7 @@
 package chapter06;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * SingleThreadRendere
@@ -19,14 +20,16 @@ public abstract class SingleThreadRenderer {
             renderImage(data);
     }
 
+    abstract void renderText(CharSequence s);
+
+    abstract List<ImageInfo> scanForImageInfo(CharSequence s);
+
+    abstract void renderImage(ImageData i);
+
     interface ImageData {
     }
 
     interface ImageInfo {
         ImageData downloadImage();
     }
-
-    abstract void renderText(CharSequence s);
-    abstract List<ImageInfo> scanForImageInfo(CharSequence s);
-    abstract void renderImage(ImageData i);
 }

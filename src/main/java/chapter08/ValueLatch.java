@@ -1,8 +1,9 @@
 package chapter08;
 
-import java.util.concurrent.*;
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
 
-import net.jcip.annotations.*;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * ValueLatch
@@ -12,25 +13,26 @@ import net.jcip.annotations.*;
  * @author Brian Goetz and Tim Peierls
  */
 @ThreadSafe
-public class ValueLatch <T> {
-    @GuardedBy("this") private T value = null;
+public class ValueLatch<T> {
     private final CountDownLatch done = new CountDownLatch(1);
+    @GuardedBy("this")
+    private T value = null;
 
     public boolean isSet() {
         return (done.getCount() == 0);
-    }
-
-    public synchronized void setValue(T newValue) {
-        if (!isSet()) {
-            value = newValue;
-            done.countDown();
-        }
     }
 
     public T getValue() throws InterruptedException {
         done.await();
         synchronized (this) {
             return value;
+        }
+    }
+
+    public synchronized void setValue(T newValue) {
+        if (!isSet()) {
+            value = newValue;
+            done.countDown();
         }
     }
 }

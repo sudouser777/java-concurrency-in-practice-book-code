@@ -1,7 +1,7 @@
 package chapter07;
 
 import java.math.BigInteger;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * PrimeProducer

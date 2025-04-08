@@ -1,6 +1,6 @@
 package chapter05;
 
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * TaskRunnable

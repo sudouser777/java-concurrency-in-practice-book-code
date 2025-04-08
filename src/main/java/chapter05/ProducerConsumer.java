@@ -2,7 +2,8 @@ package chapter05;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * ProducerConsumer
@@ -12,6 +13,24 @@ import java.util.concurrent.*;
  * @author Brian Goetz and Tim Peierls
  */
 public class ProducerConsumer {
+    private static final int BOUND = 10;
+    private static final int N_CONSUMERS = Runtime.getRuntime().availableProcessors();
+
+    public static void startIndexing(File[] roots) {
+        BlockingQueue<File> queue = new LinkedBlockingQueue<File>(BOUND);
+        FileFilter filter = new FileFilter() {
+            public boolean accept(File file) {
+                return true;
+            }
+        };
+
+        for (File root : roots)
+            new Thread(new FileCrawler(queue, filter, root)).start();
+
+        for (int i = 0; i < N_CONSUMERS; i++)
+            new Thread(new Indexer(queue)).start();
+    }
+
     static class FileCrawler implements Runnable {
         private final BlockingQueue<File> fileQueue;
         private final FileFilter fileFilter;
@@ -71,24 +90,8 @@ public class ProducerConsumer {
 
         public void indexFile(File file) {
             // Index the file...
-        };
-    }
+        }
 
-    private static final int BOUND = 10;
-    private static final int N_CONSUMERS = Runtime.getRuntime().availableProcessors();
-
-    public static void startIndexing(File[] roots) {
-        BlockingQueue<File> queue = new LinkedBlockingQueue<File>(BOUND);
-        FileFilter filter = new FileFilter() {
-            public boolean accept(File file) {
-                return true;
-            }
-        };
-
-        for (File root : roots)
-            new Thread(new FileCrawler(queue, filter, root)).start();
-
-        for (int i = 0; i < N_CONSUMERS; i++)
-            new Thread(new Indexer(queue)).start();
+        ;
     }
 }

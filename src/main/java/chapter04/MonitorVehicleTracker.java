@@ -1,8 +1,11 @@
 package chapter04;
 
-import java.util.*;
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
 
-import net.jcip.annotations.*;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * MonitorVehicleTracker
@@ -12,11 +15,21 @@ import net.jcip.annotations.*;
  * @author Brian Goetz and Tim Peierls
  */
 @ThreadSafe
- public class MonitorVehicleTracker {
-    @GuardedBy("this") private final Map<String, MutablePoint> locations;
+public class MonitorVehicleTracker {
+    @GuardedBy("this")
+    private final Map<String, MutablePoint> locations;
 
     public MonitorVehicleTracker(Map<String, MutablePoint> locations) {
         this.locations = deepCopy(locations);
+    }
+
+    private static Map<String, MutablePoint> deepCopy(Map<String, MutablePoint> m) {
+        Map<String, MutablePoint> result = new HashMap<String, MutablePoint>();
+
+        for (String id : m.keySet())
+            result.put(id, new MutablePoint(m.get(id)));
+
+        return Collections.unmodifiableMap(result);
     }
 
     public synchronized Map<String, MutablePoint> getLocations() {
@@ -34,14 +47,5 @@ import net.jcip.annotations.*;
             throw new IllegalArgumentException("No such ID: " + id);
         loc.x = x;
         loc.y = y;
-    }
-
-    private static Map<String, MutablePoint> deepCopy(Map<String, MutablePoint> m) {
-        Map<String, MutablePoint> result = new HashMap<String, MutablePoint>();
-
-        for (String id : m.keySet())
-            result.put(id, new MutablePoint(m.get(id)));
-
-        return Collections.unmodifiableMap(result);
     }
 }

@@ -1,7 +1,9 @@
 package chapter13;
 
-import java.util.concurrent.*;
-import java.util.concurrent.locks.*;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 /**

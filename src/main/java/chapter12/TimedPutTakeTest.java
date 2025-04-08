@@ -1,6 +1,6 @@
 package chapter12;
 
-import java.util.concurrent.*;
+import java.util.concurrent.CyclicBarrier;
 
 /**
  * TimedPutTakeTest
@@ -15,23 +15,6 @@ public class TimedPutTakeTest extends PutTakeTest {
     public TimedPutTakeTest(int cap, int pairs, int trials) {
         super(cap, pairs, trials);
         barrier = new CyclicBarrier(nPairs * 2 + 1, timer);
-    }
-
-    public void test() {
-        try {
-            timer.clear();
-            for (int i = 0; i < nPairs; i++) {
-                pool.execute(new PutTakeTest.Producer());
-                pool.execute(new PutTakeTest.Consumer());
-            }
-            barrier.await();
-            barrier.await();
-            long nsPerItem = timer.getTime() / (nPairs * (long) nTrials);
-            System.out.print("Throughput: " + nsPerItem + " ns/item");
-            assertEquals(putSum.get(), takeSum.get());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public static void main(String[] args) throws Exception {
@@ -50,5 +33,22 @@ public class TimedPutTakeTest extends PutTakeTest {
             }
         }
         PutTakeTest.pool.shutdown();
+    }
+
+    public void test() {
+        try {
+            timer.clear();
+            for (int i = 0; i < nPairs; i++) {
+                pool.execute(new PutTakeTest.Producer());
+                pool.execute(new PutTakeTest.Consumer());
+            }
+            barrier.await();
+            barrier.await();
+            long nsPerItem = timer.getTime() / (nPairs * (long) nTrials);
+            System.out.print("Throughput: " + nsPerItem + " ns/item");
+            assertEquals(putSum.get(), takeSum.get());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

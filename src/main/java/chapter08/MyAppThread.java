@@ -1,7 +1,8 @@
 package chapter08;
 
-import java.util.concurrent.atomic.*;
-import java.util.logging.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * MyAppThread
@@ -12,10 +13,10 @@ import java.util.logging.*;
  */
 public class MyAppThread extends Thread {
     public static final String DEFAULT_NAME = "MyAppThread";
-    private static volatile boolean debugLifecycle = false;
     private static final AtomicInteger created = new AtomicInteger();
     private static final AtomicInteger alive = new AtomicInteger();
     private static final Logger log = Logger.getAnonymousLogger();
+    private static volatile boolean debugLifecycle = false;
 
     public MyAppThread(Runnable r) {
         this(r, DEFAULT_NAME);
@@ -32,19 +33,6 @@ public class MyAppThread extends Thread {
         });
     }
 
-    public void run() {
-        // Copy debug flag to ensure consistent value throughout.
-        boolean debug = debugLifecycle;
-        if (debug) log.log(Level.FINE, "Created " + getName());
-        try {
-            alive.incrementAndGet();
-            super.run();
-        } finally {
-            alive.decrementAndGet();
-            if (debug) log.log(Level.FINE, "Exiting " + getName());
-        }
-    }
-
     public static int getThreadsCreated() {
         return created.get();
     }
@@ -59,5 +47,18 @@ public class MyAppThread extends Thread {
 
     public static void setDebug(boolean b) {
         debugLifecycle = b;
+    }
+
+    public void run() {
+        // Copy debug flag to ensure consistent value throughout.
+        boolean debug = debugLifecycle;
+        if (debug) log.log(Level.FINE, "Created " + getName());
+        try {
+            alive.incrementAndGet();
+            super.run();
+        } finally {
+            alive.decrementAndGet();
+            if (debug) log.log(Level.FINE, "Exiting " + getName());
+        }
     }
 }

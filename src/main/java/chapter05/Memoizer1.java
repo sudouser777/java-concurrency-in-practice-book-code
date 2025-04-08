@@ -1,19 +1,25 @@
 package chapter05;
 
-import java.math.BigInteger;
-import java.util.*;
+import net.jcip.annotations.GuardedBy;
 
-import net.jcip.annotations.*;
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
+
+interface Computable<A, V> {
+    V compute(A arg) throws InterruptedException;
+}
 
 /**
  * Memoizer1
- *
+ * <p>
  * Initial cache attempt using HashMap and synchronization
  *
  * @author Brian Goetz and Tim Peierls
  */
-public class Memoizer1 <A, V> implements Computable<A, V> {
-    @GuardedBy("this") private final Map<A, V> cache = new HashMap<A, V>();
+public class Memoizer1<A, V> implements Computable<A, V> {
+    @GuardedBy("this")
+    private final Map<A, V> cache = new HashMap<A, V>();
     private final Computable<A, V> c;
 
     public Memoizer1(Computable<A, V> c) {
@@ -28,11 +34,6 @@ public class Memoizer1 <A, V> implements Computable<A, V> {
         }
         return result;
     }
-}
-
-
-interface Computable <A, V> {
-    V compute(A arg) throws InterruptedException;
 }
 
 class ExpensiveFunction

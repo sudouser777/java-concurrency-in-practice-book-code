@@ -1,8 +1,10 @@
 package chapter05;
 
-import java.util.*;
+import net.jcip.annotations.GuardedBy;
 
-import net.jcip.annotations.*;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * HiddenIterator
@@ -12,7 +14,8 @@ import net.jcip.annotations.*;
  * @author Brian Goetz and Tim Peierls
  */
 public class HiddenIterator {
-    @GuardedBy("this") private final Set<Integer> set = new HashSet<Integer>();
+    @GuardedBy("this")
+    private final Set<Integer> set = new HashSet<Integer>();
 
     public synchronized void add(Integer i) {
         set.add(i);

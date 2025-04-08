@@ -1,6 +1,6 @@
 package chapter04;
 
-import net.jcip.annotations.*;
+import net.jcip.annotations.NotThreadSafe;
 
 /**
  * MutablePoint

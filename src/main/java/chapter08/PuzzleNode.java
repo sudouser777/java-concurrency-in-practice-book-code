@@ -1,8 +1,9 @@
 package chapter08;
 
-import java.util.*;
+import net.jcip.annotations.Immutable;
 
-import net.jcip.annotations.*;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * PuzzleNode
@@ -12,7 +13,7 @@ import net.jcip.annotations.*;
  * @author Brian Goetz and Tim Peierls
  */
 @Immutable
-public class PuzzleNode <P, M> {
+public class PuzzleNode<P, M> {
     final P pos;
     final M move;
     final PuzzleNode<P, M> prev;

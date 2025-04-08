@@ -1,11 +1,13 @@
 package chapter09;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.*;
-import java.util.concurrent.*;
-import javax.swing.*;
+import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * ListenerExamples
@@ -17,6 +19,12 @@ public class ListenerExamples {
 
     private final JButton colorButton = new JButton("Change color");
     private final Random random = new Random();
+    private final JButton computeButton = new JButton("Big computation");
+    private final JButton button = new JButton("Do");
+    private final JLabel label = new JLabel("idle");
+    private final JButton startButton = new JButton("Start");
+    private final JButton cancelButton = new JButton("Cancel");
+    private Future<?> runningTask = null; // thread-confined
 
     private void backgroundRandom() {
         colorButton.addActionListener(new ActionListener() {
@@ -25,9 +33,6 @@ public class ListenerExamples {
             }
         });
     }
-
-
-    private final JButton computeButton = new JButton("Big computation");
 
     private void longRunningTask() {
         computeButton.addActionListener(new ActionListener() {
@@ -40,10 +45,6 @@ public class ListenerExamples {
             }
         });
     }
-
-
-    private final JButton button = new JButton("Do");
-    private final JLabel label = new JLabel("idle");
 
     private void longRunningTaskWithFeedback() {
         button.addActionListener(new ActionListener() {
@@ -67,10 +68,6 @@ public class ListenerExamples {
             }
         });
     }
-
-    private final JButton startButton = new JButton("Start");
-    private final JButton cancelButton = new JButton("Cancel");
-    private Future<?> runningTask = null; // thread-confined
 
     private void taskWithCancellation() {
         startButton.addActionListener(new ActionListener() {
@@ -117,6 +114,7 @@ public class ListenerExamples {
             public void actionPerformed(ActionEvent e) {
                 class CancelListener implements ActionListener {
                     BackgroundTask<?> task;
+
                     public void actionPerformed(ActionEvent event) {
                         if (task != null)
                             task.cancel(true);

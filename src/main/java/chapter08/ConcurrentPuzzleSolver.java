@@ -1,6 +1,6 @@
 package chapter08;
 
-import java.util.*;
+import java.util.List;
 import java.util.concurrent.*;
 
 /**
@@ -10,11 +10,11 @@ import java.util.concurrent.*;
  *
  * @author Brian Goetz and Tim Peierls
  */
-public class ConcurrentPuzzleSolver <P, M> {
+public class ConcurrentPuzzleSolver<P, M> {
+    protected final ValueLatch<PuzzleNode<P, M>> solution = new ValueLatch<PuzzleNode<P, M>>();
     private final Puzzle<P, M> puzzle;
     private final ExecutorService exec;
     private final ConcurrentMap<P, Boolean> seen;
-    protected final ValueLatch<PuzzleNode<P, M>> solution = new ValueLatch<PuzzleNode<P, M>>();
 
     public ConcurrentPuzzleSolver(Puzzle<P, M> puzzle) {
         this.puzzle = puzzle;

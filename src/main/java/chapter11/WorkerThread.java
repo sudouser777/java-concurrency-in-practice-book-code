@@ -1,6 +1,6 @@
 package chapter11;
 
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
 
 /**
  * WorkerThread

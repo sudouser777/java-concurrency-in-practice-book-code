@@ -1,7 +1,9 @@
 package chapter13;
 
-import java.util.*;
-import java.util.concurrent.locks.*;
+import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * ReadWriteMap
@@ -10,7 +12,7 @@ import java.util.concurrent.locks.*;
  *
  * @author Brian Goetz and Tim Peierls
  */
-public class ReadWriteMap <K,V> {
+public class ReadWriteMap<K, V> {
     private final Map<K, V> map;
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
     private final Lock r = lock.readLock();

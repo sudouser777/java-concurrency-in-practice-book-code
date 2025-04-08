@@ -3,8 +3,11 @@ package chapter06;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.concurrent.*;
-import java.util.logging.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * LifecycleWebServer
@@ -49,9 +52,6 @@ public class LifecycleWebServer {
             dispatchRequest(req);
     }
 
-    interface Request {
-    }
-
     private Request readRequest(Socket s) {
         return null;
     }
@@ -61,5 +61,8 @@ public class LifecycleWebServer {
 
     private boolean isShutdownRequest(Request r) {
         return false;
+    }
+
+    interface Request {
     }
 }

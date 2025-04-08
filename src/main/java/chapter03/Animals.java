@@ -35,15 +35,6 @@ public class Animals {
     }
 
 
-    class Animal {
-        Species species;
-        Gender gender;
-
-        public boolean isPotentialMate(Animal other) {
-            return species == other.species && gender != other.gender;
-        }
-    }
-
     enum Species {
         AARDVARK, BENGAL_TIGER, CARIBOU, DINGO, ELEPHANT, FROG, GNU, HYENA,
         IGUANA, JAGUAR, KIWI, LEOPARD, MASTADON, NEWT, OCTOPUS,
@@ -53,6 +44,15 @@ public class Animals {
 
     enum Gender {
         MALE, FEMALE
+    }
+
+    class Animal {
+        Species species;
+        Gender gender;
+
+        public boolean isPotentialMate(Animal other) {
+            return species == other.species && gender != other.gender;
+        }
     }
 
     class AnimalPair {

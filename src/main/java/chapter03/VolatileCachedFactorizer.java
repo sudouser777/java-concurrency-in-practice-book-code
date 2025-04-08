@@ -1,9 +1,12 @@
 package chapter03;
 
-import java.math.BigInteger;
-import javax.servlet.*;
+import net.jcip.annotations.ThreadSafe;
 
-import net.jcip.annotations.*;
+import javax.servlet.GenericServlet;
+import javax.servlet.Servlet;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import java.math.BigInteger;
 
 /**
  * VolatileCachedFactorizer

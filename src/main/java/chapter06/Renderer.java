@@ -1,6 +1,6 @@
 package chapter06;
 
-import java.util.*;
+import java.util.List;
 import java.util.concurrent.*;
 
 import static chapter05.LaunderThrowable.launderThrowable;
@@ -45,17 +45,17 @@ public abstract class Renderer {
         }
     }
 
+    abstract void renderText(CharSequence s);
+
+    abstract List<ImageInfo> scanForImageInfo(CharSequence s);
+
+    abstract void renderImage(ImageData i);
+
     interface ImageData {
     }
 
     interface ImageInfo {
         ImageData downloadImage();
     }
-
-    abstract void renderText(CharSequence s);
-
-    abstract List<ImageInfo> scanForImageInfo(CharSequence s);
-
-    abstract void renderImage(ImageData i);
 
 }

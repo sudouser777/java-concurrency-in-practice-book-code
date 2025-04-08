@@ -2,7 +2,7 @@ package chapter10;
 
 /**
  * LeftRightDeadlock
- *
+ * <p>
  * Simple lock-ordering deadlock
  *
  * @author Brian Goetz and Tim Peierls

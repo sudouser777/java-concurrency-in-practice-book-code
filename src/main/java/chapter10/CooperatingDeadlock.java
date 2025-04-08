@@ -1,9 +1,10 @@
 package chapter10;
 
-import java.util.*;
-
 import chapter04.Point;
-import net.jcip.annotations.*;
+import net.jcip.annotations.GuardedBy;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * CooperatingDeadlock
@@ -15,8 +16,9 @@ import net.jcip.annotations.*;
 public class CooperatingDeadlock {
     // Warning: deadlock-prone!
     class Taxi {
-        @GuardedBy("this") private Point location, destination;
         private final Dispatcher dispatcher;
+        @GuardedBy("this")
+        private Point location, destination;
 
         public Taxi(Dispatcher dispatcher) {
             this.dispatcher = dispatcher;
@@ -42,8 +44,10 @@ public class CooperatingDeadlock {
     }
 
     class Dispatcher {
-        @GuardedBy("this") private final Set<Taxi> taxis;
-        @GuardedBy("this") private final Set<Taxi> availableTaxis;
+        @GuardedBy("this")
+        private final Set<Taxi> taxis;
+        @GuardedBy("this")
+        private final Set<Taxi> availableTaxis;
 
         public Dispatcher() {
             taxis = new HashSet<Taxi>();

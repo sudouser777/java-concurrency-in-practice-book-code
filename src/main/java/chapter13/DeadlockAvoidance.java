@@ -1,8 +1,9 @@
 package chapter13;
 
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.concurrent.locks.*;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 /**
@@ -13,7 +14,17 @@ import static java.util.concurrent.TimeUnit.NANOSECONDS;
  * @author Brian Goetz and Tim Peierls
  */
 public class DeadlockAvoidance {
+    private static final int DELAY_FIXED = 1;
+    private static final int DELAY_RANDOM = 2;
     private static Random rnd = new Random();
+
+    static long getFixedDelayComponentNanos(long timeout, TimeUnit unit) {
+        return DELAY_FIXED;
+    }
+
+    static long getRandomDelayModulusNanos(long timeout, TimeUnit unit) {
+        return DELAY_RANDOM;
+    }
 
     public boolean transferMoney(Account fromAcct,
                                  Account toAcct,
@@ -52,23 +63,12 @@ public class DeadlockAvoidance {
         }
     }
 
-    private static final int DELAY_FIXED = 1;
-    private static final int DELAY_RANDOM = 2;
-
-    static long getFixedDelayComponentNanos(long timeout, TimeUnit unit) {
-        return DELAY_FIXED;
-    }
-
-    static long getRandomDelayModulusNanos(long timeout, TimeUnit unit) {
-        return DELAY_RANDOM;
-    }
-
     static class DollarAmount implements Comparable<DollarAmount> {
-        public int compareTo(DollarAmount other) {
-            return 0;
+        DollarAmount(int dollars) {
         }
 
-        DollarAmount(int dollars) {
+        public int compareTo(DollarAmount other) {
+            return 0;
         }
     }
 

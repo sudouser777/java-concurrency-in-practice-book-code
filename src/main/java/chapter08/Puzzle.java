@@ -1,6 +1,6 @@
 package chapter08;
 
-import java.util.*;
+import java.util.Set;
 
 /**
  * Puzzle
@@ -9,7 +9,7 @@ import java.util.*;
  *
  * @author Brian Goetz and Tim Peierls
  */
-public interface Puzzle <P, M> {
+public interface Puzzle<P, M> {
     P initialPosition();
 
     boolean isGoal(P position);

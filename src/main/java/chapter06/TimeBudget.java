@@ -3,6 +3,16 @@ package chapter06;
 import java.util.*;
 import java.util.concurrent.*;
 
+interface TravelCompany {
+    TravelQuote solicitQuote(TravelInfo travelInfo) throws Exception;
+}
+
+interface TravelQuote {
+}
+
+interface TravelInfo {
+}
+
 /**
  * QuoteTask
  * <p/>
@@ -62,14 +72,4 @@ class QuoteTask implements Callable<TravelQuote> {
     public TravelQuote call() throws Exception {
         return company.solicitQuote(travelInfo);
     }
-}
-
-interface TravelCompany {
-    TravelQuote solicitQuote(TravelInfo travelInfo) throws Exception;
-}
-
-interface TravelQuote {
-}
-
-interface TravelInfo {
 }

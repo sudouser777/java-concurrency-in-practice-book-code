@@ -1,6 +1,8 @@
 package chapter08;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.*;
 
 /**
@@ -63,7 +65,7 @@ public abstract class TransformingSequential {
     interface Element {
     }
 
-    interface Node <T> {
+    interface Node<T> {
         T compute();
 
         List<Node<T>> getChildren();

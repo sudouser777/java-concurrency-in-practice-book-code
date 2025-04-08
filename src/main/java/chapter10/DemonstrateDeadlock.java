@@ -3,7 +3,7 @@ package chapter10;
 import chapter10.DynamicOrderDeadlock.Account;
 import chapter10.DynamicOrderDeadlock.DollarAmount;
 
-import java.util.*;
+import java.util.Random;
 
 
 /**

@@ -1,6 +1,6 @@
 package chapter08;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ThreadFactory;
 
 /**
  * MyThreadFactory

@@ -1,6 +1,6 @@
 package chapter12;
 
-import java.util.concurrent.atomic.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * XorShift

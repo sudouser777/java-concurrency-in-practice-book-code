@@ -1,6 +1,5 @@
 package chapter10;
 
-import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -29,7 +28,7 @@ public class DynamicOrderDeadlock {
     }
 
     static class DollarAmount implements Comparable<DollarAmount> {
-        private  int balance;
+        private int balance;
 
         public DollarAmount(int amount) {
             balance = amount;
@@ -51,9 +50,9 @@ public class DynamicOrderDeadlock {
     }
 
     static class Account {
-        private DollarAmount balance;
-        private final int acctNo;
         private static final AtomicInteger sequence = new AtomicInteger();
+        private final int acctNo;
+        private DollarAmount balance;
 
         public Account() {
             acctNo = sequence.incrementAndGet();

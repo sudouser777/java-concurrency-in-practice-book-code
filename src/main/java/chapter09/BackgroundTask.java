@@ -10,38 +10,8 @@ import java.util.concurrent.*;
  * @author Brian Goetz and Tim Peierls
  */
 
-public abstract class BackgroundTask <V> implements Runnable, Future<V> {
+public abstract class BackgroundTask<V> implements Runnable, Future<V> {
     private final FutureTask<V> computation = new Computation();
-
-    private class Computation extends FutureTask<V> {
-        public Computation() {
-            super(new Callable<V>() {
-                public V call() throws Exception {
-                    return BackgroundTask.this.compute();
-                }
-            });
-        }
-
-        protected final void done() {
-            GuiExecutor.instance().execute(new Runnable() {
-                public void run() {
-                    V value = null;
-                    Throwable thrown = null;
-                    boolean cancelled = false;
-                    try {
-                        value = get();
-                    } catch (ExecutionException e) {
-                        thrown = e.getCause();
-                    } catch (CancellationException e) {
-                        cancelled = true;
-                    } catch (InterruptedException consumed) {
-                    } finally {
-                        onCompletion(value, thrown, cancelled);
-                    }
-                };
-            });
-        }
-    }
 
     protected void setProgress(final int current, final int max) {
         GuiExecutor.instance().execute(new Runnable() {
@@ -88,5 +58,37 @@ public abstract class BackgroundTask <V> implements Runnable, Future<V> {
 
     public void run() {
         computation.run();
+    }
+
+    private class Computation extends FutureTask<V> {
+        public Computation() {
+            super(new Callable<V>() {
+                public V call() throws Exception {
+                    return BackgroundTask.this.compute();
+                }
+            });
+        }
+
+        protected final void done() {
+            GuiExecutor.instance().execute(new Runnable() {
+                public void run() {
+                    V value = null;
+                    Throwable thrown = null;
+                    boolean cancelled = false;
+                    try {
+                        value = get();
+                    } catch (ExecutionException e) {
+                        thrown = e.getCause();
+                    } catch (CancellationException e) {
+                        cancelled = true;
+                    } catch (InterruptedException consumed) {
+                    } finally {
+                        onCompletion(value, thrown, cancelled);
+                    }
+                }
+
+                ;
+            });
+        }
     }
 }

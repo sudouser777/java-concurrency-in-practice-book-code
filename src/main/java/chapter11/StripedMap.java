@@ -1,6 +1,6 @@
 package chapter11;
 
-import net.jcip.annotations.*;
+import net.jcip.annotations.ThreadSafe;
 
 /**
  * StripedMap
@@ -15,12 +15,6 @@ public class StripedMap {
     private static final int N_LOCKS = 16;
     private final Node[] buckets;
     private final Object[] locks;
-
-    private static class Node {
-        Node next;
-        Object key;
-        Object value;
-    }
 
     public StripedMap(int numBuckets) {
         buckets = new Node[numBuckets];
@@ -49,5 +43,11 @@ public class StripedMap {
                 buckets[i] = null;
             }
         }
+    }
+
+    private static class Node {
+        Node next;
+        Object key;
+        Object value;
     }
 }

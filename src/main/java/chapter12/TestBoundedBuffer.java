@@ -51,10 +51,6 @@ public class TestBoundedBuffer extends TestCase {
         }
     }
 
-    class Big {
-        double[] data = new double[100000];
-    }
-
     public void testLeak() throws InterruptedException {
         SemaphoreBoundedBuffer<Big> bb = new SemaphoreBoundedBuffer<Big>(CAPACITY);
         int heapSize1 = snapshotHeap();
@@ -69,6 +65,10 @@ public class TestBoundedBuffer extends TestCase {
     private int snapshotHeap() {
         /* Snapshot heap and return heap size */
         return 0;
+    }
+
+    class Big {
+        double[] data = new double[100000];
     }
 
 }

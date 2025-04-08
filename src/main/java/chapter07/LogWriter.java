@@ -2,7 +2,8 @@ package chapter07;
 
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * LogWriter
@@ -12,9 +13,9 @@ import java.util.concurrent.*;
  * @author Brian Goetz and Tim Peierls
  */
 public class LogWriter {
+    private static final int CAPACITY = 1000;
     private final BlockingQueue<String> queue;
     private final LoggerThread logger;
-    private static final int CAPACITY = 1000;
 
     public LogWriter(Writer writer) {
         this.queue = new LinkedBlockingQueue<String>(CAPACITY);

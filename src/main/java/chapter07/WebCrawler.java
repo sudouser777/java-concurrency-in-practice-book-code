@@ -1,10 +1,15 @@
 package chapter07;
 
-import java.net.URL;
-import java.util.*;
-import java.util.concurrent.*;
+import net.jcip.annotations.GuardedBy;
 
-import net.jcip.annotations.*;
+import java.net.URL;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -16,12 +21,12 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
  * @author Brian Goetz and Tim Peierls
  */
 public abstract class WebCrawler {
-    private volatile TrackingExecutor exec;
-    @GuardedBy("this") private final Set<URL> urlsToCrawl = new HashSet<URL>();
-
-    private final ConcurrentMap<URL, Boolean> seen = new ConcurrentHashMap<URL, Boolean>();
     private static final long TIMEOUT = 500;
     private static final TimeUnit UNIT = MILLISECONDS;
+    @GuardedBy("this")
+    private final Set<URL> urlsToCrawl = new HashSet<URL>();
+    private final ConcurrentMap<URL, Boolean> seen = new ConcurrentHashMap<URL, Boolean>();
+    private volatile TrackingExecutor exec;
 
     public WebCrawler(URL startUrl) {
         urlsToCrawl.add(startUrl);
@@ -56,12 +61,11 @@ public abstract class WebCrawler {
 
     private class CrawlTask implements Runnable {
         private final URL url;
+        private int count = 1;
 
         CrawlTask(URL url) {
             this.url = url;
         }
-
-        private int count = 1;
 
         boolean alreadyCrawled() {
             return seen.putIfAbsent(url, true) != null;

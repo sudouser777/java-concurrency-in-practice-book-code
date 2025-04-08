@@ -2,7 +2,8 @@ package chapter07;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.util.concurrent.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * IndexingService
@@ -32,6 +33,19 @@ public class IndexingService {
 
     private boolean alreadyIndexed(File f) {
         return false;
+    }
+
+    public void start() {
+        producer.start();
+        consumer.start();
+    }
+
+    public void stop() {
+        producer.interrupt();
+    }
+
+    public void awaitTermination() throws InterruptedException {
+        consumer.join();
     }
 
     class CrawlerThread extends Thread {
@@ -79,19 +93,8 @@ public class IndexingService {
 
         public void indexFile(File file) {
             /*...*/
-        };
-    }
+        }
 
-    public void start() {
-        producer.start();
-        consumer.start();
-    }
-
-    public void stop() {
-        producer.interrupt();
-    }
-
-    public void awaitTermination() throws InterruptedException {
-        consumer.join();
+        ;
     }
 }
