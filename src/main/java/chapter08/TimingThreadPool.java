@@ -18,6 +18,7 @@ public class TimingThreadPool extends ThreadPoolExecutor {
     private final Logger log = Logger.getLogger("TimingThreadPool");
     private final AtomicLong numTasks = new AtomicLong();
     private final AtomicLong totalTime = new AtomicLong();
+
     public TimingThreadPool() {
         super(1, 1, 0L, TimeUnit.SECONDS, null);
     }

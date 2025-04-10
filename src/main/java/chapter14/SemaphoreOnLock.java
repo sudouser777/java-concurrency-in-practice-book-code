@@ -1,8 +1,11 @@
 package chapter14;
 
-import java.util.concurrent.locks.*;
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
 
-import net.jcip.annotations.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * SemaphoreOnLock
@@ -17,7 +20,8 @@ public class SemaphoreOnLock {
     private final Lock lock = new ReentrantLock();
     // CONDITION PREDICATE: permitsAvailable (permits > 0)
     private final Condition permitsAvailable = lock.newCondition();
-    @GuardedBy("lock") private int permits;
+    @GuardedBy("lock")
+    private int permits;
 
     SemaphoreOnLock(int initialPermits) {
         lock.lock();

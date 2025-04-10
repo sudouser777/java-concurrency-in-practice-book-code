@@ -17,12 +17,12 @@ import java.util.concurrent.locks.ReentrantLock;
 
 @ThreadSafe
 public class ConditionBoundedBuffer<T> {
+    private static final int BUFFER_SIZE = 100;
     protected final Lock lock = new ReentrantLock();
     // CONDITION PREDICATE: notFull (count < items.length)
     private final Condition notFull = lock.newCondition();
     // CONDITION PREDICATE: notEmpty (count > 0)
     private final Condition notEmpty = lock.newCondition();
-    private static final int BUFFER_SIZE = 100;
     @GuardedBy("lock")
     private final T[] items = (T[]) new Object[BUFFER_SIZE];
     @GuardedBy("lock")
